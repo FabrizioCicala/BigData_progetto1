@@ -16,6 +16,8 @@ import org.apache.hadoop.mapreduce.Counter;
 public class MostUsedWords {
 
     public static void main (String[] args) throws Exception {
+        long startTime = System.currentTimeMillis();
+
         Job job  = new Job(new Configuration(), "Most Usec Words");
         job.setJarByClass(MostUsedWords.class);
         job.setMapperClass(MostUsedWordsMapper.class);
@@ -32,6 +34,10 @@ public class MostUsedWords {
 
 //        Counter counter = job.getCounters().findCounter(ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
 //        System.out.println(counter.getDisplayName() + ": " + counter.getValue());
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = (endTime-startTime)/1000;
+        System.out.println("Tempo di esecuzione job 1 con mapReduce: " + totalTime);
 
     }
 }

@@ -11,6 +11,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class CommonUser {
     public static void main (String[] args) throws Exception {
+        long startTime = System.currentTimeMillis();
+
         // first mapReduce execution - UserToProducts
         Job job1  = new Job(new Configuration(), "Common User - first map reduce");
         job1.setJarByClass(CommonUser.class);
@@ -40,6 +42,10 @@ public class CommonUser {
         FileOutputFormat.setOutputPath(job2, new Path(args[1]+"/final_result"));
 
         job2.waitForCompletion(true);
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = (endTime-startTime)/1000;
+        System.out.println("Tempo di esecuzione job 3 con mapReduce: " + totalTime);
 
     }
 }

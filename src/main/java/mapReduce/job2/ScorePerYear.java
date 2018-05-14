@@ -13,6 +13,7 @@ import mapReduce.ConstantFields;
 
 public class ScorePerYear {
 	public static void main (String[] args) throws Exception {
+        long startTime = System.currentTimeMillis();
 		
         Job job  = new Job(new Configuration(), "Score per Year");
         job.setJarByClass(ScorePerYear.class);
@@ -29,6 +30,10 @@ public class ScorePerYear {
 
 //        Counter counter = job.getCounters().findCounter(ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
 //        System.out.println(counter.getDisplayName() + ": " + counter.getValue());
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = (endTime-startTime)/1000;
+        System.out.println("Tempo di esecuzione job 2 con mapReduce: " + totalTime);
 
     }
 }
