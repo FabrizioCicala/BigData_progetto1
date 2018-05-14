@@ -45,7 +45,7 @@ public class CommonUser {
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("Tempo di esecuzione job 3 con mapReduce: " + totalTime);
+        System.out.println("Tempo di esecuzione job 3 con mapReduce: " + totalTime + " sec");
 
     }
 }

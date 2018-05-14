@@ -37,7 +37,7 @@ public class MostUsedWords {
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("Tempo di esecuzione job 1 con mapReduce: " + totalTime);
+        System.out.println("Tempo di esecuzione job 1 con mapReduce: " + totalTime + " sec");
 
     }
 }
