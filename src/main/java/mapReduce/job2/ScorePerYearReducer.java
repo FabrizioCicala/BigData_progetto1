@@ -1,6 +1,7 @@
 package mapReduce.job2;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -10,34 +11,37 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class ScorePerYearReducer extends Reducer<Text, YearScore, Text, Text> {
 
 	public void reduce (Text key, Iterable<YearScore> values,
-			Reducer<Text, YearScore, Text, Text>.Context context)
-					throws IOException, InterruptedException
+						Reducer<Text, YearScore, Text, Text>.Context context)
+			throws IOException, InterruptedException
 	{
-		Map<Integer, LinkedList<Integer>> countMap = new HashMap<>();
-		Map<Integer, Float> countMap2 = new HashMap<>();
+		Map<Integer, LinkedList<Integer>> year2score = new HashMap<>();
+		Map<Integer, Float> year2average = new HashMap<>();
 
-		LinkedList<Integer> scores = new LinkedList<>();
+		LinkedList<Integer> scores;
 		for (YearScore val : values){
-			if (countMap.containsKey(val.getYear().get())){
-				scores = countMap.get(val.getYear().get());
-				scores.add(val.getScore().get());
-			} else
-				scores.add(val.getScore().get());
-		
-			countMap.put(val.getYear().get(), scores);
+
+		    if (year2score.containsKey(val.getYear().get()))
+				scores = year2score.get(val.getYear().get());
+			else
+                scores = new LinkedList<>();
+
+			scores.add(val.getScore().get());
+            year2score.put(val.getYear().get(), scores);
 		
 		}
 
-		for (Integer year : countMap.keySet()){
-			scores = countMap.get(year);
-			int sumScores = 0;
+		for (Integer year : year2score.keySet()){
+			scores = year2score.get(year);
+			float sumScores = 0;
 			for (int score : scores)
 				sumScores += score;
-			float media = sumScores/scores.size();
-			countMap2.put(year, media);
+			float scale = 100;
+			float media = (sumScores/(float)scores.size());
+			float roudMedia = Math.round(media*scale)/scale;
+			year2average.put(year, roudMedia);
 		}
 
-		context.write(key, new Text(countMap2.toString()));
+		context.write(key, new Text(year2average.toString()));
 
 	}
 }

@@ -14,12 +14,10 @@ public class YearScore implements WritableComparable<YearScore> {
 	private IntWritable score;
 
 	/** Constructor
-     *  init class variables from IntWritable parameters
-	 **/
-    YearScore (IntWritable year, IntWritable score){
-        this.year = year;
-        this.score = score;
-    }
+     * empty constructor. necessary for hadoop execution
+     * **/
+    YearScore () {}
+
 
     /** Constructor
      *  init class variables from int parameters

@@ -1,5 +1,6 @@
 package mapReduce.job3;
 
+import mapReduce.ConstantFields;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;

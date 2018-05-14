@@ -12,5 +12,6 @@ public class ConstantFields {
     public static int Time = 7;
     public static int Summary = 8;
     public static int Text = 9;
+    public enum COUNTERS { INVALID_RECORD_COUNT }
 
 }

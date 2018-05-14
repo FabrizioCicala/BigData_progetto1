@@ -26,20 +26,25 @@ public class MostUsedWordsMapper extends Mapper<Object, Text, IntWritable, Text>
         if (!rec.get(ConstantFields.Id).equalsIgnoreCase("Id")) {
             // prendo l'anno della review
             String time = rec.get(ConstantFields.Time);
-            Date date = new Date(Long.valueOf(time)*1000);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            IntWritable year = new IntWritable(calendar.get(Calendar.YEAR));
 
-            // analizzo il summary della review
-            String summary = rec.get(ConstantFields.Summary);
-            String cleanSummary = summary.toLowerCase().replaceAll(tokens, " ");
-            StringTokenizer words = new StringTokenizer(cleanSummary);
+            try {
+                long y = Long.valueOf(time) * 1000;
+                Date date = new Date(y);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                IntWritable year = new IntWritable(calendar.get(Calendar.YEAR));
 
-            while (words.hasMoreTokens()){
-                context.write(year, new Text(words.nextToken()));
+                // analizzo il summary della review
+                String summary = rec.get(ConstantFields.Summary);
+                String cleanSummary = summary.toLowerCase().replaceAll(tokens, " ");
+                StringTokenizer words = new StringTokenizer(cleanSummary);
+
+                while (words.hasMoreTokens()) {
+                    context.write(year, new Text(words.nextToken()));
+                }
+            } catch (NumberFormatException e) {
+                context.getCounter(ConstantFields.COUNTERS.INVALID_RECORD_COUNT).increment(1L);
             }
-
         }
 
     }
