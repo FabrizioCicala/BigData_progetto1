@@ -7,8 +7,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.Counter;
-import mapReduce.ConstantFields;
 
 
 public class ScorePerYear {
@@ -28,7 +26,7 @@ public class ScorePerYear {
 
         job.waitForCompletion(true);
 
-//        Counter counter = job.getCounters().findCounter(ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
+//        Counter counter = job.getCounters().findCounter(mapReduce.ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
 //        System.out.println(counter.getDisplayName() + ": " + counter.getValue());
 
         long endTime = System.currentTimeMillis();

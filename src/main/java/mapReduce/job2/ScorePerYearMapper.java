@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import mapReduce.ConstantFields;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-
-import mapReduce.ConstantFields;
 
 public class ScorePerYearMapper extends Mapper<Object, Text, Text, YearScore> {
 
