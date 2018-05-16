@@ -4,12 +4,18 @@ import org.apache.hadoop.hive.ql.exec.UDF;
 import org.apache.hadoop.io.Text;
 
 public class CleanText extends UDF {
-    private static final String tokens = "[_|$#<>\\^=\\[\\]\\*/\\\\,;.\\-:()?!\"']";
+    private static final String tokens = "[_|$#<>\\^=\\[\\]\\*/\\\\,;.\\-:()?!\"'\\ ]";
 
     public Text evaluate(Text text) {
         if(text == null) return null;
         String summary = text.toString();
         String cleanSummary = summary.toLowerCase().replaceAll(tokens, " ");
         return new Text(cleanSummary);
+    }
+
+    public static void main (String[] args){
+        String s = "ciao, come va";
+        String cleanSummary = s.toLowerCase().replaceAll(tokens, "|");
+        System.out.println(cleanSummary);
     }
 }
