@@ -1,7 +1,6 @@
 
 add jar /home/fabrizio/Documenti/workspace/intelliJ/primoProgetto/target/fab-primoProgetto-1.0-SNAPSHOT.jar;
 
-DROP TABLE csv;
 CREATE TABLE csv (
 	Id STRING,
 	ProductID STRING,
@@ -35,8 +34,7 @@ CREATE TEMPORARY TABLE sorted_rows AS
 	SELECT year, word, num, row_number() over (PARTITION BY year ORDER BY num DESC) AS rank
 	FROM used_words;
 
-DROP TABLE job1_result;
-CREATE TABLE job1_result AS
+CREATE TEMPORARY TABLE job1_result AS
 	SELECT year, word, num
 	FROM sorted_rows
 	WHERE rank<=10 and word!='summary';

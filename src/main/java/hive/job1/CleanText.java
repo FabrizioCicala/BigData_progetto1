@@ -13,9 +13,4 @@ public class CleanText extends UDF {
         return new Text(cleanSummary);
     }
 
-    public static void main (String[] args){
-        String s = "ciao, come va";
-        String cleanSummary = s.toLowerCase().replaceAll(tokens, "|");
-        System.out.println(cleanSummary);
-    }
 }
