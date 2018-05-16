@@ -1,4 +1,4 @@
-package hive.job1;
+package hive.functions;
 
 import org.apache.hadoop.hive.ql.exec.UDF;
 import org.apache.hadoop.io.Text;

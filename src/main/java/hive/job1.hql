@@ -1,6 +1,7 @@
 
 add jar /home/fabrizio/Documenti/workspace/intelliJ/primoProgetto/target/fab-primoProgetto-1.0-SNAPSHOT.jar;
 
+DROP TABLE csv;
 CREATE TABLE csv (
 	Id STRING,
 	ProductID STRING,
@@ -17,8 +18,8 @@ CREATE TABLE csv (
 LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv'
 	OVERWRITE INTO TABLE csv;
 	
-CREATE TEMPORARY FUNCTION unix_year AS 'hive.job1.ParseDate';
-CREATE TEMPORARY FUNCTION clean_summary AS 'hive.job1.CleanText';
+CREATE TEMPORARY FUNCTION unix_year AS 'hive.functions.ParseDate';
+CREATE TEMPORARY FUNCTION clean_summary AS 'hive.functions.CleanText';
 
 CREATE TEMPORARY TABLE year2summary AS
 	SELECT unix_year(Time) AS year, clean_summary(Summary) AS cleanSummary

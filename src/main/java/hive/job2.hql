@@ -1,7 +1,8 @@
 
 add jar /home/fabrizio/Documenti/workspace/intelliJ/primoProgetto/target/fab-primoProgetto-1.0-SNAPSHOT.jar;
 
-CREATE IF NOT EXISTS TABLE csv (
+DROP TABLE csv;
+CREATE TABLE csv (
 	Id STRING,
 	ProductID STRING,
 	UserID STRING,
@@ -17,7 +18,7 @@ CREATE IF NOT EXISTS TABLE csv (
 LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv'
 	OVERWRITE INTO TABLE csv;
 
-CREATE TEMPORARY FUNCTION unix_year AS 'hive.job1.ParseDate';
+CREATE TEMPORARY FUNCTION unix_year AS 'hive.functions.ParseDate';
 
 CREATE TEMPORARY TABLE filteredCsv AS
 	SELECT unix_year(Time) AS year, ProductID, Score
