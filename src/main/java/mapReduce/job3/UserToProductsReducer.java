@@ -15,7 +15,7 @@ public class UserToProductsReducer extends Reducer<Text, Text, Text, Text> {
                         Reducer<Text, Text, Text, Text>.Context context)
             throws IOException, InterruptedException
     {
-        set = new HashSet<>();
+        set = new TreeSet<>();
         // create a sorted set with product values
         for (Text val : values){
             set.add(val.toString());
@@ -36,7 +36,7 @@ public class UserToProductsReducer extends Reducer<Text, Text, Text, Text> {
         int i, j;
         for (i=0;i<products.size();i++) {
             for (j=i+1;j<products.size();j++){
-                couples.add("["+products.get(i)+", "+products.get(j)+"]");
+                couples.add(products.get(i)+"\t"+products.get(j));
             }
         }
     }

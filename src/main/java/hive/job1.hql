@@ -1,8 +1,5 @@
 
-add jar /home/fabrizio/Documenti/workspace/intelliJ/primoProgetto/target/fab-primoProgetto-1.0-SNAPSHOT.jar;
-
-DROP TABLE csv;
-CREATE TABLE csv (
+CREATE TABLE if not exists csv (
 	Id STRING,
 	ProductID STRING,
 	UserID STRING,
@@ -10,34 +7,31 @@ CREATE TABLE csv (
 	HelpNum STRING,
 	HelpDenom STRING,
 	Score STRING,
-	Time STRING,
+	Time BIGINT,
 	Summary STRING,
 	Text STRING)
-	ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde';
+	ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	
 LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv'
 	OVERWRITE INTO TABLE csv;
-	
-CREATE TEMPORARY FUNCTION unix_year AS 'hive.functions.ParseDate';
-CREATE TEMPORARY FUNCTION clean_summary AS 'hive.functions.CleanText';
 
 CREATE TEMPORARY TABLE year2summary AS
-	SELECT unix_year(Time) AS year, clean_summary(Summary) AS cleanSummary
+	SELECT year(from_unixtime(Time)) AS year, Summary
 	FROM csv;
 
 CREATE TEMPORARY TABLE used_words AS
 	SELECT year, word, count(1) AS num
 	FROM year2summary
-	LATERAL VIEW explode(split(trim(cleanSummary), ' +')) words AS word
+	LATERAL VIEW explode(split(trim(regexp_replace(lower(Summary), '[^A-Za-z0-9]', ' ')), ' +'))words AS word
 	GROUP BY year, word;
 
 CREATE TEMPORARY TABLE sorted_rows AS
 	SELECT year, word, num, row_number() over (PARTITION BY year ORDER BY num DESC) AS rank
 	FROM used_words;
 
-CREATE TEMPORARY TABLE job1_result AS
+CREATE TABLE job1_result AS
 	SELECT year, word, num
 	FROM sorted_rows
-	WHERE rank<=10 and word!='summary';
+	WHERE rank<=10 and year!='NULL';
 
-SELECT * from job1_result;
+--SELECT * from job1_result;

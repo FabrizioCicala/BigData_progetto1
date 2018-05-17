@@ -1,8 +1,5 @@
 
-add jar /home/fabrizio/Documenti/workspace/intelliJ/primoProgetto/target/fab-primoProgetto-1.0-SNAPSHOT.jar;
-
-DROP TABLE csv;
-CREATE TABLE csv (
+CREATE TABLE if not exists csv (
 	Id STRING,
 	ProductID STRING,
 	UserID STRING,
@@ -10,28 +7,26 @@ CREATE TABLE csv (
 	HelpNum STRING,
 	HelpDenom STRING,
 	Score STRING,
-	Time STRING,
+	Time BIGINT,
 	Summary STRING,
 	Text STRING)
-	ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde';
+	ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	
 LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv'
 	OVERWRITE INTO TABLE csv;
 
-CREATE TEMPORARY FUNCTION unix_year AS 'hive.functions.ParseDate';
-
 CREATE TEMPORARY TABLE filteredCsv AS
-	SELECT unix_year(Time) AS year, ProductID, Score
+	SELECT year(from_unixtime(Time)) AS year, ProductID, Score
 	FROM csv;
 
-CREATE TEMPORARY TABLE job2_result AS
-	SELECT ProductID, year, AVG(Score) AS average
+CREATE TABLE job2_result AS
+	SELECT ProductID, year(from_unixtime(Time)) AS year, round(AVG(Score), 2) AS average
 	FROM filteredCsv
 	WHERE year >= 2003 AND year <= 2012
 	GROUP BY ProductID, year
 	ORDER BY ProductID, year;
 
-SELECT * FROM job2_result;
+--SELECT * FROM job2_result;
 
 
 
