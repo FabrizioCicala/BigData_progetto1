@@ -1,14 +1,12 @@
 package spark.job1;
 
 import com.clearspring.analytics.util.Lists;
-import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
 import scala.Tuple2;
 import utilities.ConstantFields;
+import utilities.LoadData;
 import utilities.ParseText;
 import utilities.ParseTime;
 
@@ -18,19 +16,12 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class MostUsedWords {
+    private static String path = "/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv";
 
     public static void main(String[] args) {
+        JavaRDD<Row> rdd = LoadData.readCsvToRDD();
 
-        String path = "/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/provaReviews.csv";
-        SparkConf conf = new SparkConf().setAppName("Word Count").setMaster("local[4]");
-        SparkSession spark = SparkSession
-                .builder()
-                .appName("Most Used Words")
-                .config(conf)
-                .getOrCreate();
-
-        Dataset<Row> df = spark.read().option("header", "true").csv(path);
-        JavaRDD<Row> rdd = df.javaRDD();
+        long startTime = System.currentTimeMillis();
 
         JavaPairRDD<Integer, List<String>> time2summary =
                 rdd.mapToPair(row -> new Tuple2<>(ParseTime.getYear((String)row.get(ConstantFields.Time)),
@@ -50,16 +41,20 @@ public class MostUsedWords {
                 allWords.mapToPair(tuple -> new Tuple2<>(
                         tuple._1,
                         Lists.newArrayList(tuple._2).stream().
-                                sorted(new TupleComparator()).limit(10).collect(toList())));
+                                sorted(new TupleComparator()).limit(10).collect(toList()))).filter(tuple -> tuple._1!=0);
 
-        List<Tuple2<Integer, List<String>>> tuples = time2summary.collect();
-//        List<Tuple2<Integer, List<Tuple2<String, Long>>>> tuples = result.collect();
+//        List<Tuple2<Integer, List<String>>> tuples = time2summary.collect();
+        List<Tuple2<Integer, List<Tuple2<String, Long>>>> tuples = result.collect();
 
         System.out.println( "\n##########\t OUTPUT \t##########\n" );
         for (Tuple2<?,?> tuple : tuples) {
             System.out.println(tuple._1() + ": " + tuple._2().toString());
         }
         System.out.println( "\n##########\t END OUTPUT \t##########\n" );
+
+        long endTime = System.currentTimeMillis();
+        long totalTime = (endTime-startTime)/1000;
+        System.out.println("\nTempo totale di esecuzione: " + totalTime + " sec");
     }
 
 

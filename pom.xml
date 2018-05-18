@@ -25,11 +25,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- rimossa poichè crea conflitti con spark
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-core</artifactId>
             <version>1.2.1</version>
         </dependency>
+        -->
 
         <dependency>
             <groupId>log4j</groupId>
@@ -46,7 +48,7 @@
         </dependency>
 
 
-        <!-- *** SPARK DEPENDENCIES *** -->
+        <!-- *** SPARK DEPENDENCY *** -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
@@ -58,6 +60,8 @@
             <artifactId>spark-streaming_2.11</artifactId>
             <version>2.3.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
@@ -81,6 +85,7 @@
         </dependency>
 
     </dependencies>
+
 
     <build>
         <plugins>
