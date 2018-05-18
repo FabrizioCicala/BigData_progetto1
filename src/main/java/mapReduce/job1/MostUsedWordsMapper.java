@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
 
 public class MostUsedWordsMapper extends Mapper<Object, Text, IntWritable, Text> {
 
-    private String regex = "[^A-Za-z0-9]";
+    private String regex = "[^A-Za-z0-9]+";
 
     public void map (Object key, Text value, Mapper<Object, Text, IntWritable, Text>.Context context)
             throws IOException, InterruptedException

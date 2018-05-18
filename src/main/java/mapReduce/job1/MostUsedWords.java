@@ -29,9 +29,6 @@ public class MostUsedWords {
 
         job.waitForCompletion(true);
 
-//        Counter counter = job.getCounters().findCounter(utilities.ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
-//        System.out.println(counter.getDisplayName() + ": " + counter.getValue());
-
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
         System.out.println("Tempo di esecuzione job 1 con mapReduce: " + totalTime + " sec");

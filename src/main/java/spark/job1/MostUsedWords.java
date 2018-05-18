@@ -16,7 +16,6 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class MostUsedWords {
-    private static String path = "/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv";
 
     public static void main(String[] args) {
         JavaRDD<Row> rdd = LoadData.readCsvToRDD();
@@ -28,7 +27,8 @@ public class MostUsedWords {
                         ParseText.getWordFromText((String)row.get(ConstantFields.Summary))));
 
         JavaPairRDD<Tuple2<Integer, String>, Long> year2words =
-                time2summary.flatMapToPair(tuple -> tuple._2.stream().map(word -> new Tuple2<>(new Tuple2<>(tuple._1, word), 1L)).iterator());
+                time2summary.flatMapToPair(tuple -> tuple._2.stream().map(word -> new Tuple2<>(new Tuple2<>(tuple._1, word), 1L))
+                .iterator());
 
         JavaPairRDD<Tuple2<Integer, String>, Long> count = year2words.reduceByKey((a, b) -> a +b);
 
@@ -43,7 +43,6 @@ public class MostUsedWords {
                         Lists.newArrayList(tuple._2).stream().
                                 sorted(new TupleComparator()).limit(10).collect(toList()))).filter(tuple -> tuple._1!=0);
 
-//        List<Tuple2<Integer, List<String>>> tuples = time2summary.collect();
         List<Tuple2<Integer, List<Tuple2<String, Long>>>> tuples = result.collect();
 
         System.out.println( "\n##########\t OUTPUT \t##########\n" );
