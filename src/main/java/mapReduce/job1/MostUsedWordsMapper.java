@@ -1,6 +1,6 @@
 package mapReduce.job1;
 
-import mapReduce.ConstantFields;
+import utilities.ConstantFields;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

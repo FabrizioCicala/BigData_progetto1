@@ -26,7 +26,7 @@ public class ScorePerYear {
 
         job.waitForCompletion(true);
 
-//        Counter counter = job.getCounters().findCounter(mapReduce.ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
+//        Counter counter = job.getCounters().findCounter(utilities.ConstantFields.COUNTERS.INVALID_RECORD_COUNT);
 //        System.out.println(counter.getDisplayName() + ": " + counter.getValue());
 
         long endTime = System.currentTimeMillis();

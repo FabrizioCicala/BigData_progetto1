@@ -42,6 +42,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
 
 
@@ -63,9 +64,10 @@
             <version>2.3.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.databricks/spark-csv -->
         <dependency>
             <groupId>com.databricks</groupId>
-            <artifactId>spark-csv_2.10</artifactId>
+            <artifactId>spark-csv_2.11</artifactId>
             <version>1.5.0</version>
         </dependency>
 
