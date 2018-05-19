@@ -1,4 +1,4 @@
-package spark.job1;
+package spark;
 
 import com.clearspring.analytics.util.Lists;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class MostUsedWords {
+public class Job1_MostUsedWords {
 
     public static void main(String[] args) {
         JavaRDD<Row> rdd = LoadData.readCsvToRDD();
@@ -48,12 +48,6 @@ public class MostUsedWords {
         mostUsedWords.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job1_result");
 
 //        List<Tuple2<Integer, List<Tuple2<String, Long>>>> tuples = mostUsedWords.collect();
-//
-//        System.out.println( "\n##########\t OUTPUT \t##########\n" );
-//        for (Tuple2<?,?> tuple : tuples) {
-//            System.out.println(tuple._1() + ": " + tuple._2().toString());
-//        }
-//        System.out.println( "\n##########\t END OUTPUT \t##########\n" );
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;

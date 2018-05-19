@@ -1,4 +1,4 @@
-package spark.job3;
+package spark;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -10,7 +10,7 @@ import utilities.TupleComparator;
 
 import java.util.List;
 
-public class CommonUsers {
+public class Job3_CommonUsers {
 
     public static void main(String[] args) {
         // load the csv
@@ -27,19 +27,13 @@ public class CommonUsers {
                 product2user.join(product2user).filter(tuple -> tuple._2._1.compareTo(tuple._2._2)<0);
 
         // PairRDD: (prodotto 1, prodotto 2), count
-        JavaPairRDD<Tuple2<String, String>, Integer> commonUsers =
-                user2prodCouple.mapToPair(tuple -> new Tuple2<>(tuple._2, 1))
+        JavaPairRDD<String, Integer> commonUsers =
+                user2prodCouple.mapToPair(tuple -> new Tuple2<>(tuple._2.toString(), 1))
                 .reduceByKey((a, b) -> a+b).sortByKey();
 
 //        commonUsers.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job3_result");
 
-        List<Tuple2<Tuple2<String, String>, Integer>> tuples = commonUsers.collect();
-
-        System.out.println( "\n##########\t OUTPUT \t##########\n" );
-        for (Tuple2<?,?> tuple : tuples) {
-            System.out.println(tuple._1() + ": " + tuple._2().toString());
-        }
-        System.out.println( "\n##########\t END OUTPUT \t##########\n" );
+        List<Tuple2<String, Integer>> tuples = commonUsers.collect();
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
