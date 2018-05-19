@@ -8,7 +8,11 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-
+/**
+ * 2. Un job che sia in grado di generare, per ciascun prodotto, lo score medio ottenuto in ciascuno
+ * degli anni compresi tra il 2003 e il 2012, indicando ProductId seguito da tutti gli score medi
+ * ottenuti negli anni dell’intervallo. Il risultato deve essere ordinato in base al ProductId.
+ **/
 public class ScorePerYear {
 	public static void main (String[] args) throws Exception {
         long startTime = System.currentTimeMillis();

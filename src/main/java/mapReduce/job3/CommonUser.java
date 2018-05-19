@@ -8,11 +8,18 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+/**
+ * 3. Un job in grado di generare coppie di prodotti che hanno almeno un utente in comune, ovvero
+ * che sono stati recensiti da uno stesso utente, indicando, per ciascuna coppia, il numero di utenti
+ * in comune. Il risultato deve essere ordinato in base allo ProductId del primo elemento della
+ * coppia e, possibilmente, non deve presentare duplicati.
+ **/
 public class CommonUser {
     public static void main (String[] args) throws Exception {
         long startTime = System.currentTimeMillis();
 
         // first mapReduce execution - UserToProducts
+        // genera le coppie (utente, prodotto recensito dall'utente)
         Job job1  = new Job(new Configuration(), "Common User - first map reduce");
         job1.setJarByClass(CommonUser.class);
         job1.setMapperClass(UserToProductsMapper.class);
@@ -28,6 +35,7 @@ public class CommonUser {
         job1.waitForCompletion(true);
 
         // second mapReduce execution
+        // genera le triple (prodotto 1, prodotto 2, numero di utenti in comune)
         Job job2 = new Job(new Configuration(), "Common User - second map reduce");
         job2.setJarByClass(CommonUser.class);
         job2.setMapperClass(CommonUserMapper.class);

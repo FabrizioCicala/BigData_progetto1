@@ -7,14 +7,18 @@ import org.apache.spark.sql.Row;
 import scala.Tuple2;
 import utilities.*;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * 1. Un job che sia in grado di generare, per ciascun anno, le dieci parole che sono state più usate
+ * nelle recensioni (campo summary) in ordine di frequenza, indicando, per ogni parola, la sua
+ * frequenza, ovvero il numero di occorrenze della parola nelle recensioni di quell’anno.
+ **/
 public class Job1_MostUsedWords {
 
-    public static void main(String[] args) {
+    public static void mostUsedWords() {
         JavaRDD<Row> rdd = LoadData.readCsvToRDD();
 
         long startTime = System.currentTimeMillis();

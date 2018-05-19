@@ -11,13 +11,11 @@ import static java.util.stream.Collectors.toMap;
 
 public class MostUsedWordsReducer extends Reducer<IntWritable, Text, IntWritable, Text> {
 
-    private Map<String, Integer> countMap;
-
     public void reduce (IntWritable key, Iterable<Text> values,
                          Reducer<IntWritable, Text, IntWritable, Text>.Context context)
             throws IOException, InterruptedException
     {
-        countMap = new HashMap<>();
+        Map<String, Integer> countMap = new HashMap<>();
 
         for (Text val : values){
             int freq = 1;
@@ -27,6 +25,7 @@ public class MostUsedWordsReducer extends Reducer<IntWritable, Text, IntWritable
            countMap.put(val.toString(), freq);
         }
 
+        // le entries della mappa vengono ordinate per valore e vengono prese le prima 10 coppie
         Map<String, Integer> sortedMap = countMap.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .limit(10)

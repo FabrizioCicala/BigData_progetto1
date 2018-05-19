@@ -37,8 +37,8 @@ public class ScorePerYearReducer extends Reducer<Text, YearScore, Text, Text> {
 				sumScores += score;
 			float scale = 100;
 			float media = (sumScores/(float)scores.size());
-			float roudMedia = Math.round(media*scale)/scale;
-			year2average.put(year, roudMedia);
+			float roundMedia = Math.round(media*scale)/scale;
+			year2average.put(year, roundMedia);
 		}
 
 		context.write(key, new Text(year2average.toString()));

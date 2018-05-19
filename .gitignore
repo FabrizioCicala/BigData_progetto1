@@ -1,6 +1,7 @@
 
 # IGNORE INTELLIJ FILES
 .idea/
+out/
 target/
 
 

@@ -6,13 +6,18 @@ import org.apache.spark.sql.Row;
 import scala.Tuple2;
 import utilities.ConstantFields;
 import utilities.LoadData;
-import utilities.TupleComparator;
 
 import java.util.List;
 
+/**
+ * 3. Un job in grado di generare coppie di prodotti che hanno almeno un utente in comune, ovvero
+ * che sono stati recensiti da uno stesso utente, indicando, per ciascuna coppia, il numero di utenti
+ * in comune. Il risultato deve essere ordinato in base allo ProductId del primo elemento della
+ * coppia e, possibilmente, non deve presentare duplicati.
+ * **/
 public class Job3_CommonUsers {
 
-    public static void main(String[] args) {
+    public static void commonUsers() {
         // load the csv
         JavaRDD<Row> rdd = LoadData.readCsvToRDD();
 

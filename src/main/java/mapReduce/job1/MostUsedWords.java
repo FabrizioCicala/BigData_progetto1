@@ -10,6 +10,11 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
+/**
+ * 1. Un job che sia in grado di generare, per ciascun anno, le dieci parole che sono state più usate
+ * nelle recensioni (campo summary) in ordine di frequenza, indicando, per ogni parola, la sua
+ * frequenza, ovvero il numero di occorrenze della parola nelle recensioni di quell’anno.
+ **/
 public class MostUsedWords {
 
     public static void main (String[] args) throws Exception {

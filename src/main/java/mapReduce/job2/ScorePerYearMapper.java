@@ -10,6 +10,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import utilities.ParseTime;
 
 public class ScorePerYearMapper extends Mapper<Object, Text, Text, YearScore> {
 
@@ -21,20 +22,16 @@ public class ScorePerYearMapper extends Mapper<Object, Text, Text, YearScore> {
 
 		if (!rec.get(ConstantFields.Id).equalsIgnoreCase("Id")) {
 			String productId = rec.get(ConstantFields.ProductId);
-            try {
-				String time = rec.get(ConstantFields.Time);
-				Date date = new Date(Long.valueOf(time) * 1000);
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(date);
-				int year = calendar.get(Calendar.YEAR);
+			String time = rec.get(ConstantFields.Time);
 
+			int year = ParseTime.getYear(time);
+			if(year==0) context.getCounter(ConstantFields.COUNTERS.INVALID_RECORD_COUNT).increment(1L);
+			else {
 				if (year>2002 && year<2014) {
 					int score = Integer.valueOf(rec.get(ConstantFields.Score));
 					context.write(new Text(productId), new YearScore(year, score));
 				}
 
-			} catch (NumberFormatException e) {
-				context.getCounter(ConstantFields.COUNTERS.INVALID_RECORD_COUNT).increment(1L);
 			}
 
 		}

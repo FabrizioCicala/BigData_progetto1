@@ -8,6 +8,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+/**
+ * Classe per rappresentare la coppia (anno, score)
+ **/
 public class YearScore implements WritableComparable<YearScore> {
 
 	private IntWritable year;
