@@ -12,7 +12,7 @@ CREATE TABLE if not exists csv (
 	Text STRING)
 	ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	
-LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv'
+LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/reviews/Reviews.csv'
 	OVERWRITE INTO TABLE csv;
 
 CREATE TEMPORARY TABLE year2summary AS
@@ -29,7 +29,7 @@ CREATE TEMPORARY TABLE sorted_rows AS
 	SELECT year, word, num, row_number() over (PARTITION BY year ORDER BY num DESC) AS rank
 	FROM used_words;
 
-CREATE TABLE job1_result AS
+CREATE TEMPORARY TABLE job1_result AS
 	SELECT year, word, num
 	FROM sorted_rows
 	WHERE rank<=10 and year!='NULL';

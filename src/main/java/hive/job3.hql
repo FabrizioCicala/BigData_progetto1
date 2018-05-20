@@ -12,7 +12,7 @@ CREATE TABLE if not exists csv (
 	Text STRING)
 	ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	
-LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv'
+LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/reviews/halfReviews.csv'
 	OVERWRITE INTO TABLE csv;
 
 CREATE TEMPORARY TABLE prod2user AS
@@ -24,7 +24,7 @@ CREATE TEMPORARY TABLE couples AS
     FROM prod2user t1 JOIN prod2user t2 ON t1.UserID=t2.UserID
     WHERE t1.ProductID<t2.ProductID;
 
-CREATE TABLE job3_result AS
+CREATE TEMPORARY TABLE job3_result AS
     SELECT prod1, prod2, count(1) AS count
     FROM couples
     GROUP BY prod1, prod2
