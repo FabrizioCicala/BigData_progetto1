@@ -18,8 +18,7 @@ import static java.util.stream.Collectors.toList;
  **/
 public class Job1_MostUsedWords {
 
-    public static void mostUsedWords() {
-        JavaRDD<Row> rdd = LoadData.readCsvToRDD();
+    public static void mostUsedWords(JavaRDD<Row> rdd) {
 
         long startTime = System.currentTimeMillis();
 
@@ -49,13 +48,13 @@ public class Job1_MostUsedWords {
                                 .limit(10)
                                 .collect(toList()))).filter(tuple -> tuple._1!=0);
 
-        mostUsedWords.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job1_result");
+//        mostUsedWords.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job1_result");
 
-//        List<Tuple2<Integer, List<Tuple2<String, Long>>>> tuples = mostUsedWords.collect();
+        List<Tuple2<Integer, List<Tuple2<String, Long>>>> tuples = mostUsedWords.collect();
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("\nTempo totale di esecuzione: " + totalTime + " sec");
+        System.out.println("\nJob1- Tempo totale di esecuzione: " + totalTime + " sec");
     }
 
 

@@ -17,9 +17,7 @@ import java.util.List;
  * **/
 public class Job3_CommonUsers {
 
-    public static void commonUsers() {
-        // load the csv
-        JavaRDD<Row> rdd = LoadData.readCsvToRDD();
+    public static void commonUsers(JavaRDD<Row> rdd) {
 
         long startTime = System.currentTimeMillis();
 
@@ -42,7 +40,7 @@ public class Job3_CommonUsers {
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("\nTempo totale di esecuzione: " + totalTime + " sec");
+        System.out.println("\nJob3 - Tempo totale di esecuzione: " + totalTime + " sec");
 
 
     }

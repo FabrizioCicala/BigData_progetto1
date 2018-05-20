@@ -22,11 +22,9 @@ import utilities.TupleComparator;
  **/
 public class Job2_ScorePerYear {
 
-    public static void scorePerYear() {
+    public static void scorePerYear(JavaRDD<Row> rdd) {
 
         long startTime = System.currentTimeMillis();
-
-        JavaRDD<Row> rdd = LoadData.readCsvToRDD();
 
         JavaRDD<Row> filtered_rows =
                 rdd.filter(row -> ParseTime.getYear((String)row.get(ConstantFields.Time)) >= 2003 && ParseTime.getYear((String)row.get(ConstantFields.Time))<= 2012);
@@ -52,13 +50,13 @@ public class Job2_ScorePerYear {
                         Lists.newArrayList(tuple._2).stream().sorted(TupleComparator::compareByYear).collect(toList())));
 
 
-        prodID2YearAVGScore_result.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job2_result");
+//        prodID2YearAVGScore_result.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job2_result");
 
-//        List<Tuple2<String, List<Tuple2<Integer,Double>>>> tuples = prodID2YearAVGScore_result.collect();
+        List<Tuple2<String, List<Tuple2<Integer,Double>>>> tuples = prodID2YearAVGScore_result.collect();
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("\nTempo totale di esecuzione: " + totalTime + " sec");
+        System.out.println("\nJob 2 - Tempo totale di esecuzione: " + totalTime + " sec");
 
 
     }
