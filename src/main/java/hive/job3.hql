@@ -12,7 +12,7 @@ CREATE TABLE if not exists csv (
 	Text STRING)
 	ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
 	
-LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/reviews/halfReviews.csv'
+LOAD DATA LOCAL INPATH '/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/reviews/Reviews.csv'
 	OVERWRITE INTO TABLE csv;
 
 CREATE TEMPORARY TABLE prod2user AS
