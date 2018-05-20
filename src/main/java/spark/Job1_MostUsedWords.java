@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
  **/
 public class Job1_MostUsedWords {
 
-    public static void mostUsedWords(JavaRDD<Row> rdd) {
+    public static String mostUsedWords(JavaRDD<Row> rdd) {
 
         long startTime = System.currentTimeMillis();
 
@@ -54,7 +54,7 @@ public class Job1_MostUsedWords {
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("\nJob1- Tempo totale di esecuzione: " + totalTime + " sec");
+        return ("\nJob 1: " + totalTime + " sec");
     }
 
 

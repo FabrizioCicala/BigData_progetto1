@@ -17,8 +17,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  **/
 public class MostUsedWords {
 
-    public static void main (String[] args) throws Exception {
+    public static String mostUsedWord (String[] args) throws Exception {
         long startTime = System.currentTimeMillis();
+
+        String input = args[0];
+        String output = args[1]+"/job1";
 
         Job job  = new Job(new Configuration(), "Most Usec Words");
         job.setJarByClass(MostUsedWords.class);
@@ -29,14 +32,14 @@ public class MostUsedWords {
         job.setMapOutputKeyClass(IntWritable.class);
         job.setMapOutputValueClass(Text.class);
 
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path(input));
+        FileOutputFormat.setOutputPath(job, new Path(output));
 
         job.waitForCompletion(true);
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("Tempo di esecuzione job 1 con mapReduce: " + totalTime + " sec");
+        return ("Job 1: " + totalTime + " sec");
 
     }
 }

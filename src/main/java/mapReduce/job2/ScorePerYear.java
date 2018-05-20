@@ -14,8 +14,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * ottenuti negli anni dell’intervallo. Il risultato deve essere ordinato in base al ProductId.
  **/
 public class ScorePerYear {
-	public static void main (String[] args) throws Exception {
+	public static String scorePerYear (String[] args) throws Exception {
         long startTime = System.currentTimeMillis();
+
+            String input = args[0];
+            String output = args[1]+"/job2";
 		
         Job job  = new Job(new Configuration(), "Score per Year");
         job.setJarByClass(ScorePerYear.class);
@@ -25,8 +28,8 @@ public class ScorePerYear {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(YearScore.class);
 
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        FileInputFormat.addInputPath(job, new Path(input));
+        FileOutputFormat.setOutputPath(job, new Path(output));
 
         job.waitForCompletion(true);
 
@@ -35,7 +38,7 @@ public class ScorePerYear {
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("Tempo di esecuzione job 2 con mapReduce: " + totalTime + " sec");
+        return ("Job 2: " + totalTime + " sec");
 
     }
 }

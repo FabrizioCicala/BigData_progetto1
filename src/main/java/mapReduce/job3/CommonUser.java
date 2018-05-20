@@ -15,8 +15,12 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * coppia e, possibilmente, non deve presentare duplicati.
  **/
 public class CommonUser {
-    public static void main (String[] args) throws Exception {
+
+    public static String commonUser (String[] args) throws Exception {
         long startTime = System.currentTimeMillis();
+
+        String input = args[0];
+        String output = args[1]+"/job3";
 
         // first mapReduce execution - UserToProducts
         // genera le coppie (utente, prodotto recensito dall'utente)
@@ -29,8 +33,8 @@ public class CommonUser {
         job1.setMapOutputKeyClass(Text.class);
         job1.setMapOutputValueClass(Text.class);
 
-        FileInputFormat.addInputPath(job1, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job1, new Path(args[1]));
+        FileInputFormat.addInputPath(job1, new Path(input));
+        FileOutputFormat.setOutputPath(job1, new Path(output));
 
         job1.waitForCompletion(true);
 
@@ -46,13 +50,13 @@ public class CommonUser {
         job2.setMapOutputValueClass(IntWritable.class);
 
         FileInputFormat.addInputPath(job2, new Path(args[1]));
-        FileOutputFormat.setOutputPath(job2, new Path(args[1]+"/final_result"));
+        FileOutputFormat.setOutputPath(job2, new Path(output+"/final_result"));
 
         job2.waitForCompletion(true);
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("Tempo di esecuzione job 3 con mapReduce: " + totalTime + " sec");
+        return ("Job 3: " + totalTime + " sec");
 
     }
 }

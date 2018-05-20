@@ -8,7 +8,7 @@ import org.apache.spark.sql.SparkSession;
 
 public class LoadData {
 
-    private static final String path = "/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/Reviews.csv";
+    private static final String path = "/home/fabrizio/Documenti/universita/magistrale/big_data/progetto1/reviews/doubleReviews.csv";
 
     public static JavaRDD<Row> readCsvToRDD (){
         SparkConf conf = new SparkConf().setAppName("Word Count").setMaster("local[4]");

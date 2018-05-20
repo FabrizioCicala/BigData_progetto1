@@ -18,9 +18,27 @@ Implentazione di 3 jobs sui dati estratti da un csv con l'utilizzo di 3 tecnolog
 
 
 ### Tempi di esecuzione (esecuzione in locale)
+#### Job 1
 
-|           |  Job 1  |  Job 2  |  Job 3   |
-|    ---    |   ---   |   ---   |   ---    |
-| MapReduce | 23 sec  | 19 sec  | 50 sec   |
-| Hive      | 46.5 sec| 37.3 sec| 106.3 sec|
-| Spark     | 12 sec  | 9 sec   | 32 sec   |
+|           | 150 MB    | 300 MB    | 600 MB    |
+| :---:     | :---:     | :---:     | :---:     |
+| MapReduce | -         | 23 sec    | -         |
+| Hive      | -         | 46.5 sec  | -         |
+| Spark     | 9 sec     | 11 sec    | 23 sec    |
+
+#### Job 2
+
+|           | 150 MB    | 300 MB    | 600 MB    |
+| :---:     | :---:     | :---:     | :---:     |
+| MapReduce | -         | 19 sec    | -         |
+| Hive      | -         | 37.3 sec  | -         |
+| Spark     | 7 sec     | 9 sec     | 18 sec    |
+
+#### Job 3
+
+|           | 150 MB    | 300 MB    | 600 MB    |
+| :---:     | :---:     | :---:     | :---:     |
+| MapReduce | -         | 50 sec    | -         |
+| Hive      | -         | 106.3 sec | -         |
+| Spark     | 11 sec    | 29 sec    | 33 sec    |
+

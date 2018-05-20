@@ -22,7 +22,7 @@ import utilities.TupleComparator;
  **/
 public class Job2_ScorePerYear {
 
-    public static void scorePerYear(JavaRDD<Row> rdd) {
+    public static String scorePerYear(JavaRDD<Row> rdd) {
 
         long startTime = System.currentTimeMillis();
 
@@ -56,7 +56,7 @@ public class Job2_ScorePerYear {
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
-        System.out.println("\nJob 2 - Tempo totale di esecuzione: " + totalTime + " sec");
+        return ("\nJob 2: " + totalTime + " sec");
 
 
     }
