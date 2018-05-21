@@ -19,7 +19,7 @@ CREATE TEMPORARY TABLE year2summary AS
 	SELECT year(from_unixtime(Time)) AS year, Summary
 	FROM csv;
 
-CREATE TEMPORARY TABLE used_words AS
+CREATE TEMPORARY TABLE year_word_freq AS
 	SELECT year, word, count(1) AS num
 	FROM year2summary
 	LATERAL VIEW explode(split(trim(regexp_replace(lower(Summary), '[^A-Za-z0-9]', ' ')), ' +'))words AS word
@@ -27,7 +27,7 @@ CREATE TEMPORARY TABLE used_words AS
 
 CREATE TEMPORARY TABLE sorted_rows AS
 	SELECT year, word, num, row_number() over (PARTITION BY year ORDER BY num DESC) AS rank
-	FROM used_words;
+	FROM year_word_freq;
 
 CREATE TEMPORARY TABLE job1_result AS
 	SELECT year, word, num

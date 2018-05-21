@@ -23,25 +23,25 @@ public class Job1_MostUsedWords {
         long startTime = System.currentTimeMillis();
 
         // PairRDD: anno, lista (word) - dati relativi alle singole recensioni
-        JavaPairRDD<Integer, List<String>> year2reviewSummary =
+        JavaPairRDD<Integer, List<String>> year_summaryWords =
                 rdd.mapToPair(row -> new Tuple2<>(ParseTime.getYear((String)row.get(ConstantFields.Time)),
                         ParseText.getWordFromText((String)row.get(ConstantFields.Summary))));
 
         // PairRDD: (anno, word), count
-        JavaPairRDD<Tuple2<Integer, String>, Long> year2word =
-                year2reviewSummary.flatMapToPair(tuple -> tuple._2.stream().map(word -> new Tuple2<>(new Tuple2<>(tuple._1, word), 1L))
+        JavaPairRDD<Tuple2<Integer, String>, Long> year_word_freq =
+                year_summaryWords.flatMapToPair(tuple -> tuple._2.stream().map(word -> new Tuple2<>(new Tuple2<>(tuple._1, word), 1L))
                 .iterator()).reduceByKey((a, b) -> a +b);
 
         // PairRDD: anno, (word, count)
         JavaPairRDD<Integer, Tuple2<String, Long>>  year2wordCount =
-                year2word.mapToPair(tuple -> new Tuple2<>(tuple._1._1, new Tuple2<>(tuple._1._2, tuple._2)));
+                year_word_freq.mapToPair(tuple -> new Tuple2<>(tuple._1._1, new Tuple2<>(tuple._1._2, tuple._2)));
 
         // PairRDD: anno, lista (word, count)
-        JavaPairRDD<Integer, Iterable<Tuple2<String, Long>>> allWords = year2wordCount.groupByKey().sortByKey();
+        JavaPairRDD<Integer, Iterable<Tuple2<String, Long>>> year_allWords = year2wordCount.groupByKey().sortByKey();
 
         // PairRDD: anno, lista (word, count) ordinato e limitati a 10 elementi
         JavaPairRDD<Integer, List<Tuple2<String, Long>>> mostUsedWords =
-                allWords.mapToPair(tuple -> new Tuple2<>(
+                year_allWords.mapToPair(tuple -> new Tuple2<>(
                         tuple._1,
                         Lists.newArrayList(tuple._2).stream().
                                 sorted(TupleComparator::compareByLongValues)

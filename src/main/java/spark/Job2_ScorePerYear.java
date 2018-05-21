@@ -29,30 +29,30 @@ public class Job2_ScorePerYear {
         JavaRDD<Row> filtered_rows =
                 rdd.filter(row -> ParseTime.getYear((String)row.get(ConstantFields.Time)) >= 2003 && ParseTime.getYear((String)row.get(ConstantFields.Time))<= 2012);
 
-        JavaPairRDD<Tuple2<String,Integer>, Double> productIdYear2score =
+        JavaPairRDD<Tuple2<String,Integer>, Double> productIdYear_score =
                 filtered_rows.mapToPair(row -> new Tuple2<>(new Tuple2<>((String) row.get(ConstantFields.ProductId),
                         ParseTime.getYear((String) row.get(ConstantFields.Time))),
                         Double.parseDouble((String) row.get(ConstantFields.Score))));
 
-        JavaPairRDD<Tuple2<String,Integer>,List<Double>> productIdYear2Listscore =
-                productIdYear2score.groupByKey().mapToPair(p -> new Tuple2<Tuple2<String,Integer>,List<Double>>(p._1(),Lists.newArrayList(p._2())));
+        JavaPairRDD<Tuple2<String,Integer>,List<Double>> productIdYear_Listscore =
+                productIdYear_score.groupByKey().mapToPair(p -> new Tuple2<Tuple2<String,Integer>,List<Double>>(p._1(),Lists.newArrayList(p._2())));
 
-        JavaPairRDD<Tuple2<String,Integer>,Double> prodIDYear2AVGScore =
-                productIdYear2Listscore.mapToPair(p -> new Tuple2<>(p._1(),p._2().stream().mapToDouble(Double::doubleValue).sum() / p._2().size()));
+        JavaPairRDD<Tuple2<String,Integer>,Double> prodIdYear_AVGScore =
+                productIdYear_Listscore.mapToPair(p -> new Tuple2<>(p._1(),p._2().stream().mapToDouble(Double::doubleValue).sum() / p._2().size()));
 
-        JavaPairRDD<String, Iterable<Tuple2<Integer,Double>>> prodID2YearAVGScore =
-                prodIDYear2AVGScore.mapToPair(p -> new Tuple2<>(p._1._1, new Tuple2<>(p._1._2,p._2))).groupByKey().sortByKey();
+        JavaPairRDD<String, Iterable<Tuple2<Integer,Double>>> prodId_YearAVGScore =
+                prodIdYear_AVGScore.mapToPair(p -> new Tuple2<>(p._1._1, new Tuple2<>(p._1._2,p._2))).groupByKey().sortByKey();
 
 
-        JavaPairRDD<String, List<Tuple2<Integer,Double>>> prodID2YearAVGScore_result =
-                prodID2YearAVGScore.mapToPair(tuple -> new Tuple2<>(
+        JavaPairRDD<String, List<Tuple2<Integer,Double>>> result =
+                prodId_YearAVGScore.mapToPair(tuple -> new Tuple2<>(
                         tuple._1,
                         Lists.newArrayList(tuple._2).stream().sorted(TupleComparator::compareByYear).collect(toList())));
 
 
 //        prodID2YearAVGScore_result.coalesce(1, true).saveAsTextFile("/home/fabrizio/Scaricati/spark_job2_result");
 
-        List<Tuple2<String, List<Tuple2<Integer,Double>>>> tuples = prodID2YearAVGScore_result.collect();
+        List<Tuple2<String, List<Tuple2<Integer,Double>>>> tuples = result.collect();
 
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime-startTime)/1000;
